@@ -32,7 +32,22 @@ create table core.det_people
     id_people int -- ссылка на core.bdet_people
     ,dfrom date
     ,dto date default ('9999-12-31')
+    ,dt_insert datetime
+    ,dt_update datetime
+    ,rec_state char(1)
 )
+create unique index UIX_det_people on core.det_people (id_people, dfrom)
+
+create table core.fct_people
+(
+    id_people int -- ссылка на core.bdet_people
+    ,dfrom date
+    ,dto date default ('9999-12-31')
+    ,dt_insert datetime
+    ,dt_update datetime
+    ,rec_state char(1)
+)
+create unique index UIX_fct_people on core.fct_people (id_people, dfrom)
 
 create table core.det_country
 (
@@ -56,6 +71,7 @@ create table core.fct_country_info
 (
     id_country int -- ссылка на core.bdet_country
     ,dfrom date
+    ,dto date default ('9999-12-31')
     ,population int
     ,area int
     ,pop_density float
@@ -102,6 +118,7 @@ create table core.fct_city_info
 (
     id_city int -- ссылка на core.bdet_city
     ,dfrom date
+    ,dto date default ('9999-12-31')
     ,population float
     ,dt_insert datetime
     ,dt_update datetime

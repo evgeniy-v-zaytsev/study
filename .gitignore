@@ -3,10 +3,13 @@
 *.csv
 *.xls*
 *.zip
-
+*/data/*
 
 # ignore all logs
 *.log
 
 # vscode
 .vscode/*
+
+# result
+!*/result/*
