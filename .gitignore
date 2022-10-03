@@ -1,0 +1,12 @@
+# data files
+
+*.csv
+*.xls*
+*.zip
+
+
+# ignore all logs
+*.log
+
+# vscode
+.vscode/*
