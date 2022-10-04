@@ -105,7 +105,7 @@ create table core.fct_country_info
     ,pop_density float
     ,coastline float
     ,net_migration float
-    ,Infant mortality float
+    ,infant_mortality float
     ,gdp float
     ,literacy float
     ,phones float

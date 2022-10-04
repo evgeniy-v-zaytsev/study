@@ -39,6 +39,17 @@ select
     ,gi.country_name
     ,gi.country_region
     ,gi.country_continent
+    ,fci.population
+    ,fci.area
+    ,fci.net_migration
+    ,fci.infant_mortality
+    ,fci.birthrate
+    ,fci.deathrate
+    ,fci.agriculture
+    ,fci.industry
+    ,fci.service
+    ,fci.literacy
+    ,fci.crops
 from 
     core.det_subject s
 inner join 
@@ -49,5 +60,12 @@ inner join
     geo_info gi
 on 
     gi.id_city = coalesce(s.id_city_birth, s.id_city_organization)        
+left join 
+    core.fct_country_info fci
+on 
+    fci.id_country = gi.id_country
+    /*ниже условие отбирает информацию по странам на дату вручения премии*/
+    and nl.dfrom >= fci.dfrom
+    and nl.dfrom < fci.dto 
 where getdate() >= s.dfrom
     and getdate() < s.dto
