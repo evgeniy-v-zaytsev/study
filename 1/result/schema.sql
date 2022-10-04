@@ -4,6 +4,7 @@ create table core.bdet_country
 (
    id_country int identity(1,1) primary key
    ,code varchar(255)
+   ,id_source int
    ,dt_insert datetime
 )
 create unique index UIX_bdet_country on core.bdet_country (code)
@@ -11,43 +12,70 @@ create table core.bdet_city
 (
    id_city int identity(1,1)  primary key
    ,code varchar(255)
+   ,id_source int
    ,dt_insert datetime
 )
 create unique index UIX_bdet_city on core.bdet_city (code)
-create table core.bdet_people
+create table core.bdet_subject
 (
-    id_people int identity(1,1)
+    id_subject int identity(1,1)
+    ,code varchar(255)
+    ,id_source int
+    ,dt_insert datetime
+)
+create unique index UIX_bdet_subject on core.bdet_subject (code)
+create table core.bdet_source 
+(
+    id_source int identity(1,1) primary key
     ,code varchar(255)
     ,dt_insert datetime
 )
-create unique index UIX_bdet_people on core.bdet_people (code)
+create unique index UIX_bdet_source on core.bdet_source (code)
 /*
 **********************************
 ************ Схема BI ************
 **********************************
 */
 
-create table core.det_people
+create table core.fct_nobel_laureat 
 (
-    id_people int -- ссылка на core.bdet_people
-    ,dfrom date
+    id_subject int  -- ссылка на core.bdet_subject
+    ,dfrom date -- Заполняем по формуле cast(cast(Year as varchar(4)) + '-12-31' as date)  
     ,dto date default ('9999-12-31')
+    ,category varchar(50)
+    ,prize	varchar(max)
+    ,motivation	varchar(max)
+    ,dividend int -- Делимое из поля Prize Share
+    ,divisor int -- Делитель из поля Prize Share
     ,dt_insert datetime
     ,dt_update datetime
     ,rec_state char(1)
 )
-create unique index UIX_det_people on core.det_people (id_people, dfrom)
+create unique index UIX_fct_nobel_laureat on core.fct_nobel_laureat (id_subject, dfrom)
 
-create table core.fct_people
+create table core.det_subject
 (
-    id_people int -- ссылка на core.bdet_people
-    ,dfrom date
+    id_subject int -- ссылка на core.bdet_subject
+    ,dfrom date 
     ,dto date default ('9999-12-31')
+    ,subject_type varchar(50) --Тип субъекта (ФЛ/ЮЛ), наполняется из поля Laureate Type
+    ,full_name varchar(1024)
+    ,date_birth date
+    ,id_city_birth int -- ссылка на core.bdet_city
+    ,id_country_birth int -- ссылка на core.bdet_country
+    ,sex varchar(5)
+    ,organization_name varchar(1024)
+    ,id_city_organization int -- ссылка на core.bdet_city
+    ,id_country_organization int -- ссылка на core.bdet_country
+    ,date_death date
+    ,id_city_death int -- ссылка на core.bdet_city
+    ,id_country_death int -- ссылка на core.bdet_country
     ,dt_insert datetime
     ,dt_update datetime
     ,rec_state char(1)
 )
-create unique index UIX_fct_people on core.fct_people (id_people, dfrom)
+create unique index UIX_det_subject on core.det_subject (id_people, dfrom)
+
 
 create table core.det_country
 (
