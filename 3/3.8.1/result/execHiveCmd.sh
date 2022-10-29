@@ -1,12 +1,17 @@
 #!/bin/bash
 
-sqlFile=$1
-# проверить, содержит ли файл !connect
-firstRow=$(cat $sqlFile | head -1)
-if [[ $firstRow -eq "!connect" ]] 
-then
-    result=$(beeline -f $sqlFile)
-    echo $result
+sqlInput=$1
+
+logFile="exec_stdout.log"
+errFile="exec_stderr.log"
+[ -f $logFile ] && rm $logFile
+[ -f $errFile ] && rm $errFile
+
+sqlCmd="!connect  jdbc:hive2://10.93.1.9:10000 hive eee;\n"$(< $sqlInput)";"
+
+result=$(beeline -f $sqlCmd) >$logFile 2>$errFile
+if [ ! $? -eq 0 ]; then 
+	echo "There were errors while working with dir, check "$errFile
 else
-    echo "First row of file "$sqlFile" doesn`t contains !connect"
+	echo $result
 fi
