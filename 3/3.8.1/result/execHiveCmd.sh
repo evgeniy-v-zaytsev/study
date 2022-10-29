@@ -8,7 +8,7 @@ execFile="/tmp/zaytsevev/sql.txt"
 [ -f $errFile ] && rm $errFile
 [ -f $execFile ] && rm $execFile
 
-sqlCmd="!connect  jdbc:hive2://10.93.1.9:10000 hive eee;
+sqlCmd="!connect jdbc:hive2://10.93.1.9:10000 hive eee;
 "$sqlInput";"
 
 echo $sqlCmd >$execFile
